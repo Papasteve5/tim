@@ -1,0 +1,26 @@
+version: "3.9"
+services:
+  nginx:
+    image: "nginx:latest"
+    volumes:
+      - "./index.html:/usr/share/nginx/html/index.html:ro"
+    ports:
+      - "8080:80"
+
+  db333:
+    image: mariadb:10
+    environment:
+      MARIADB_ROOT_PASSWORD: zli1234
+    ports:
+      - "3306:3306"
+    volumes:
+      - ./mysqldata:/var/lib/mysql
+
+  phpmyadmin:
+    image: phpmyadmin:latest
+    depends_on:
+      - db333
+    environment:
+      PMA_HOST: db333
+    ports:
+      - 10001:80
